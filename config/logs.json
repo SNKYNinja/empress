@@ -1,0 +1,18 @@
+{
+    "info": {
+        "clientLogin": "Client logged in as '{USER_TAG}'",
+        "dbConnection": "Connected to mongodb database",
+        "guildJoined": "Guild '{GUILD_NAME}' ({GUILD_ID}) joined",
+        "guildLeft": "Guild '{GUILD_NAME}' ({GUILD_ID}) left"
+    },
+    "error": {
+        "clientLogin": "An error occurred while the client attempted to login",
+        "dbConnection": "An error occurred while connecting to database",
+        "commandNotFound": "[{INTERACTION_ID}] A command with the name '{COMMAND_NAME}' could not be found",
+        "commandGuild": "[{INTERACTION_ID}] An error occurred while executing the '{COMMAND_NAME}' command for user '{USER_TAG}' ({USER_ID}) in channel '{CHANNEL_NAME}' ({CHANNEL_ID}) in guild '{GUILD_NAME}' ({GUILD_ID})",
+        "commandOther": "[{INTERACTION_ID}] An error occurred while executing the '{COMMAND_NAME}' command for user '{USER_TAG}' ({USER_ID})",
+        "autocompleteNotFound": "[{INTERACTION_ID}] An autocomplete method for the '{COMMAND_NAME}' command could not be found",
+        "autocompleteGuild": "[{INTERACTION_ID}] An error occurred while autocompleting the '{OPTION_NAME}' option for the '{COMMAND_NAME}' command for user '{USER_TAG}' ({USER_ID}) in channel '{CHANNEL_NAME}' ({CHANNEL_ID}) in guild '{GUILD_NAME}' ({GUILD_ID})",
+        "autocompleteOther": "[{INTERACTION_ID}] An error occurred while autocompleting the '{OPTION_NAME}' option for the '{COMMAND_NAME}' command for user '{USER_TAG}' ({USER_ID})"
+    }
+}
