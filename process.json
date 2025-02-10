@@ -1,0 +1,23 @@
+{
+    "apps": [
+        {
+            "name": "Empress",
+            "script": "./dist/bot.js",
+            "instances": 1,
+            "exec_mode": "fork",
+            "autorestart": true,
+            "watch": [
+                "src"
+            ],
+            "ignore_watch": [
+                "node_modules",
+                "dist"
+            ],
+            "watch_delay": 1000,
+            "max_memory_restart": "500M",
+            "env": {
+                "NODE_ENV": "production"
+            }
+        }
+    ]
+}
