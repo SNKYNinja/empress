@@ -22,6 +22,7 @@ interface RateLimit {
 export interface ConfigInterface {
     owner: string
     bot: {
+        name: string
         token: string
     }
     guilds: ObjectNameIDArray

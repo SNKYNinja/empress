@@ -2,7 +2,6 @@ import { DiscordClient } from "bot"
 import {
     AutocompleteInteraction,
     ChatInputCommandInteraction,
-    CommandInteraction,
     Events,
     NewsChannel,
     TextChannel,
@@ -66,8 +65,8 @@ const event: EventInterface = {
                               .replaceAll("{USER_ID}", interaction.user.id)
                               .replaceAll("{CHANNEL_NAME}", interaction.channel.name)
                               .replaceAll("{CHANNEL_ID}", interaction.channel.id)
-                              .replaceAll("{GUILD_NAME}", interaction.guild?.name)
-                              .replaceAll("{GUILD_ID}", interaction.guild?.id)
+                              .replaceAll("{GUILD_NAME}", interaction.guild?.name ?? "Unknown Guild")
+                              .replaceAll("{GUILD_ID}", interaction.guild?.id ?? "Unknown ID")
                         : logs.error.commandOther
                               .replaceAll("{INTERACTION_ID}", interaction.id)
                               .replaceAll("{COMMAND_NAME}", interaction.commandName)
@@ -103,8 +102,8 @@ const event: EventInterface = {
                               .replaceAll("{USER_ID}", interaction.user.id)
                               .replaceAll("{CHANNEL_NAME}", interaction.channel.name)
                               .replaceAll("{CHANNEL_ID}", interaction.channel.id)
-                              .replaceAll("{GUILD_NAME}", interaction.guild?.name)
-                              .replaceAll("{GUILD_ID}", interaction.guild?.id)
+                              .replaceAll("{GUILD_NAME}", interaction.guild?.name ?? "Unknown Guild")
+                              .replaceAll("{GUILD_ID}", interaction.guild?.id ?? "Unknown ID")
                         : logs.error.autocompleteOther
                               .replaceAll("{INTERACTION_ID}", interaction.id)
                               .replaceAll("{OPTION_NAME}", interaction.commandName)

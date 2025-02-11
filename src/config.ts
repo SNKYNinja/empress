@@ -3,7 +3,7 @@ import "dotenv/config"
 
 export const config: ConfigInterface = {
     owner: process.env.OWNER_ID,
-    bot: { token: process.env.DISCORD_TOKEN },
+    bot: { name: "Empress", token: process.env.DISCORD_TOKEN },
     guilds: [
         {
             name: process.env.DEV_GUILD_NAME,
