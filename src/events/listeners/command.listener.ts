@@ -11,7 +11,8 @@ import {
 
 import { EventInterface } from "typings"
 
-import { Logger } from "../../services/logger.js"
+import { Logger, EmbedHandler } from "../../services/index.js"
+
 import { DiscordLimits } from "../../constants/index.js"
 import { config } from "../../config.js"
 
@@ -35,7 +36,8 @@ const event: EventInterface = {
                     .replaceAll("{INTERACTION_ID}", interaction.id)
                     .replaceAll("{COMMAND_NAME}", interaction.commandName)
             )
-            return // TODO: Add embed reply with return statements
+
+            return EmbedHandler.error("Command not found...")
         }
 
         const subCommand = interaction.options.getSubcommand(false)
@@ -89,8 +91,6 @@ const event: EventInterface = {
                 let choices = await autoCompleteHandler(interaction, client)
                 await interaction.respond(choices.slice(0, DiscordLimits.CHOICES_PER_AUTOCOMPLETE))
             } catch (err) {
-                console.log(err)
-                console.log("Error in type: ", interaction.channel, interaction.channel instanceof TextChannel)
                 Logger.error(
                     interaction.channel instanceof TextChannel ||
                         interaction.channel instanceof NewsChannel ||

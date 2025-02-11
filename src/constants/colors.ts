@@ -1,4 +1,11 @@
-import { ColorResolvable } from "discord.js"
+import { ColorResolvable, RGBTuple } from "discord.js"
+
+function hexToRgb(hex: string): RGBTuple {
+    const r = parseInt(hex.slice(1, 3), 16)
+    const g = parseInt(hex.slice(3, 5), 16)
+    const b = parseInt(hex.slice(5, 7), 16)
+    return [r, g, b]
+}
 
 export class Colors {
     public static readonly ALL = {
@@ -29,18 +36,18 @@ export class Colors {
     } as { [key: string]: ColorResolvable }
 
     public static readonly DISCORD = {
-        white: "#FFFFFF",
-        black: "#000000",
-        burple: "#5865F2",
-        fuschia: "#EB459E",
-        greyple: "#99AAB5",
-        darkButNotBlack: "#2C2F33",
-        notQuiteBlack: "#23272A",
-        background: "#2F3136",
-        red: "#ED4245",
-        green: "#43B383",
-        yellow: "#FEE75C"
-    } as { [key: string]: ColorResolvable }
+        white: hexToRgb("#FFFFFF"),
+        black: hexToRgb("#000000"),
+        burple: hexToRgb("#5865F2"),
+        fuschia: hexToRgb("#EB459E"),
+        greyple: hexToRgb("#99AAB5"),
+        darkButNotBlack: hexToRgb("#2C2F33"),
+        notQuiteBlack: hexToRgb("#23272A"),
+        background: hexToRgb("#2F3136"),
+        red: hexToRgb("#ED4245"),
+        green: hexToRgb("#43B383"),
+        yellow: hexToRgb("#FEE75C")
+    } as { [key: string]: RGBTuple }
 
     public static readonly MATERIAL = {
         red: "#FF5555",

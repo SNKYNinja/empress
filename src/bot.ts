@@ -9,7 +9,7 @@ const { loadButtons, loadSelectMenus } = new ComponentInteractionHandler()
 
 import { connect } from "mongoose"
 
-import { Logger } from "./services/logger.js"
+import { Logger } from "./services/index.js"
 
 import { createRequire } from "node:module"
 const require = createRequire(import.meta.url)

@@ -5,7 +5,7 @@ import { DiscordClient } from "bot"
 import { glob } from "glob"
 import { pathToFileURL } from "node:url"
 import path from "path"
-import { Logger } from "../services/logger.js"
+import { Logger } from "../services/index.js"
 
 export class SlashCommandHandler {
     constructor() {}
