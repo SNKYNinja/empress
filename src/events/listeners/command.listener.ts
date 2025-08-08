@@ -52,7 +52,9 @@ const event: EventInterface = {
 
                 subCmdFile ? subCmdFile.execute(interaction, client) : command.execute(interaction, client)
 
-                Logger.info("Command exected " + interaction.commandName)
+                const commandLog = subCommand ? `${interaction.commandName}.${subCommand}` : interaction.commandName
+
+                Logger.info(`Command Executed [${commandLog}]`)
             } catch (err) {
                 Logger.error(
                     interaction.channel instanceof TextChannel ||

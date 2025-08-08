@@ -1,7 +1,7 @@
 {
     "info": {
         "clientLogin": "Client logged in as '{USER_TAG}'",
-        "dbConnection": "Connected to mongodb database",
+        "dbConnection": "Connected to MongoDB Database",
         "guildJoined": "Guild '{GUILD_NAME}' ({GUILD_ID}) joined",
         "guildLeft": "Guild '{GUILD_NAME}' ({GUILD_ID}) left"
     },

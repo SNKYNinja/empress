@@ -4,7 +4,10 @@ import { EventInterface } from "typings"
 
 import { config } from "../../config.js"
 
+import { EmbedHandler } from "../../services/embed.js"
+
 import { RateLimiter } from "discord.js-rate-limiter"
+
 const rateLimiter = new RateLimiter(config.rateLimits.commands.amount, config.rateLimits.commands.interval)
 
 const event: EventInterface = {
@@ -22,7 +25,7 @@ const event: EventInterface = {
 
         const button = client.buttons.get(interaction.customId)
 
-        if (!button) return
+        if (!button) return EmbedHandler.error("Button not found...")
 
         button.execute(interaction, client)
     }

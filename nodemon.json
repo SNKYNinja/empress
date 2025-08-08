@@ -1,0 +1,10 @@
+{
+  "watch": [
+    "src"
+  ],
+  "ext": "ts,json",
+  "ignore": [
+    "dist"
+  ],
+  "exec": "pnpm build && node --enable-source-maps dist/bot.js"
+}

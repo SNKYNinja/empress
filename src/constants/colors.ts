@@ -43,7 +43,8 @@ export class Colors {
         greyple: hexToRgb("#99AAB5"),
         darkButNotBlack: hexToRgb("#2C2F33"),
         notQuiteBlack: hexToRgb("#23272A"),
-        background: hexToRgb("#2F3136"),
+        // background: hexToRgb("#2F3136"),
+        background: hexToRgb("#242429"),
         red: hexToRgb("#ED4245"),
         green: hexToRgb("#43B383"),
         yellow: hexToRgb("#FEE75C")

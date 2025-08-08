@@ -7,19 +7,18 @@ interface EmbedOptions {
     color?: RGBTuple
     fields?: { name: string; value: string; inline?: boolean }[]
     footer?: { text: string; iconURL?: string }
-    thumbnail?: string
-    image?: string
+    thumbnail?: string | null
+    image?: string | null
     author?: { name: string; iconURL?: string; url?: string }
     timestamp?: boolean
 }
 
 class EmbedHandler {
     static create(opts: EmbedOptions): EmbedBuilder {
-        const embed = new EmbedBuilder()
-            .setColor(opts.color ?? Colors.DISCORD.background)
-            .setTitle(opts.title ?? "")
-            .setDescription(opts.description ?? "")
+        const embed = new EmbedBuilder().setColor(opts.color ?? Colors.DISCORD.background)
 
+        if (opts.title) embed.setTitle(opts.title)
+        if (opts.description) embed.setDescription(opts.description)
         if (opts.fields) embed.addFields(...opts.fields)
         if (opts.footer) embed.setFooter(opts.footer)
         if (opts.thumbnail) embed.setThumbnail(opts.thumbnail)
