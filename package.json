@@ -1,6 +1,6 @@
 {
   "name": "empress",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A blazing fast and multipurpose discord bot with wide range of features",
   "main": "dist/bot.js",
   "type": "module",

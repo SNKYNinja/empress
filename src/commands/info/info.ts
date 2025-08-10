@@ -11,7 +11,7 @@ const command: SubCommandInterface = {
             subCmd
                 .setName("user")
                 .setDescription(".")
-                .addUserOption((opts) => opts.setName("target").setDescription(".").setRequired(true))
+                .addUserOption((opts) => opts.setName("target").setDescription("."))
         )
         .addSubcommand((subCmd) => subCmd.setName("server").setDescription("."))
 }

@@ -27,13 +27,13 @@ const command: SubCommand = {
         const botCount = members.cache.filter((m) => m.user.bot).size
         const guildMetaData = getGuildData(guild)
 
-        let embedColor = Colors.DISCORD.background
+        let color = Colors.DISCORD.background
         if (members.me?.roles.highest.hexColor !== "#000000") {
             const hex = members.me!.roles.highest.hexColor.substring(1)
             const r = parseInt(hex.substring(0, 2), 16)
             const g = parseInt(hex.substring(2, 4), 16)
             const b = parseInt(hex.substring(4, 6), 16)
-            embedColor = [r, g, b]
+            color = [r, g, b]
         }
 
         const textChannels = getChannelCountByTypes(channels, [
@@ -54,7 +54,7 @@ const command: SubCommand = {
         const staticEmojis = emojis.cache.filter((e) => !e.animated).size
 
         const resEmbed = EmbedHandler.create({
-            color: embedColor,
+            color: color,
             thumbnail: guild.iconURL({ size: 512 }),
             author: {
                 name: guild.name,
@@ -79,7 +79,7 @@ const command: SubCommand = {
                 },
                 {
                     name: "Assets",
-                    value: `static: ${staticEmojis}/${guildMetaData.maxEmojis}\nanimated: ${animatedEmojis}/${guildMetaData.maxAnimatedEmojis}\nstickers: ${stickers.cache.size}/${guildMetaData.maxStickers}`,
+                    value: `**Static:** ${staticEmojis}/${guildMetaData.maxEmojis}\n**Animated:** ${animatedEmojis}/${guildMetaData.maxAnimatedEmojis}\n**Stickers**: ${stickers.cache.size}/${guildMetaData.maxStickers}`,
                     inline: true
                 },
                 {
