@@ -1,13 +1,11 @@
 import { DiscordClient } from "bot"
 import { Colors } from "../../constants/index.js"
-import { Icons } from "../../constants/index.js"
-import { ChatInputCommandInteraction, GuildMember, Presence, PresenceUpdateStatus, User } from "discord.js"
+import { ChatInputCommandInteraction, GuildMember } from "discord.js"
 import { SubCommand } from "typings"
 import { EmbedHandler } from "../../services/index.js"
-import { StringUtils, DiscordUtils } from "../../functions/utils.js"
+import { StringUtils } from "../../functions/utils.js"
 
 const { splitPascalCase } = StringUtils
-const { maxDisplayRoles } = DiscordUtils
 
 const command: SubCommand = {
     subCmd: "info.user",
@@ -113,7 +111,6 @@ const command: SubCommand = {
             ]
         })
 
-        // Add roles if they exist and aren't too many
         if (roles.length > 0) {
             const topRoles = roles.slice(0, 12).join(" ")
             if (topRoles.length < 1024) {
@@ -124,7 +121,6 @@ const command: SubCommand = {
             }
         }
 
-        // Add banner image if exists
         if (bannerURL) {
             resEmbed.setImage(bannerURL)
         }
