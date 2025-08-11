@@ -25,7 +25,7 @@ const event: EventInterface = {
 
         const button = client.buttons.get(interaction.customId)
 
-        if (!button) return EmbedHandler.error("Button not found...")
+        if (!button) return EmbedHandler.error(interaction, "Button not found...")
 
         button.execute(interaction, client)
     }

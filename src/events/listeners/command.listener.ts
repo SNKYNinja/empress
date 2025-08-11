@@ -36,7 +36,7 @@ const event: EventInterface = {
                     .replaceAll("{COMMAND_NAME}", interaction.commandName)
             )
 
-            return EmbedHandler.error("Command not found...")
+            return EmbedHandler.error(interaction, "Command not found...")
         }
 
         const subCommand = interaction.options.getSubcommand(false)

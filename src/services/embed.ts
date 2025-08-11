@@ -1,10 +1,12 @@
 import { EmbedBuilder, RGBTuple } from "@discordjs/builders"
-import { Colors } from "../constants/index.js"
+import { Colors, Icons } from "../constants/index.js"
+import { BaseInteraction } from "discord.js"
 
 interface EmbedOptions {
     title?: string
     description?: string
     color?: RGBTuple
+    url?: string
     fields?: { name: string; value: string; inline?: boolean }[]
     footer?: { text: string; iconURL?: string }
     thumbnail?: string | null
@@ -19,6 +21,7 @@ class EmbedHandler {
 
         if (opts.title) embed.setTitle(opts.title)
         if (opts.description) embed.setDescription(opts.description)
+        if (opts.url) embed.setURL(opts.url)
         if (opts.fields) embed.addFields(...opts.fields)
         if (opts.footer) embed.setFooter(opts.footer)
         if (opts.thumbnail) embed.setThumbnail(opts.thumbnail)
@@ -29,8 +32,12 @@ class EmbedHandler {
         return embed
     }
 
-    static error(message: string): EmbedBuilder {
-        return this.create({ description: message, color: Colors.DISCORD.red })
+    static error(interaction: BaseInteraction, message: string): EmbedBuilder {
+        return this.create({
+            description: `${Icons.STATUS.error} ${message}`,
+            color: Colors.DISCORD.red,
+            author: { name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ size: 1024 }) }
+        })
     }
 }
 
