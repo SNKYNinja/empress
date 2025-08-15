@@ -8,6 +8,8 @@ const event: EventInterface = {
     name: Events.ClientReady,
     options: { once: true, rest: false },
     execute: async (client: DiscordClient) => {
+        client.poru.init()
+
         // store ram usage
         setInterval(async () => {
             const memUsage = process.memoryUsage().heapUsed / (1024 * 1024)

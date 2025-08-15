@@ -1,9 +1,7 @@
 export class Icons {
     public static readonly STATUS = {
-        success: "<:icon_correct:1005116658978914435>",
-        error: "<:icon_incorrect:1005149910280175616>",
-        checkmark: "<:green_check:1048266995008806972>",
-        cross: "<:red_cross:1048305078651605072>",
+        success: "<:checkmark:1404455160683696208>",
+        error: "<:crossmark:1404455332918464583>",
         announcement: "<:blurple_announcement:1030340123788836955>"
     } as { [key: string]: string }
 
@@ -19,6 +17,11 @@ export class Icons {
         purple: "<:purple_icon:1136929037999165440>",
         blue: "<:blue_icon:1136929032118730883>"
     } as { [key: string]: string }
+
+    public static readonly LOGO = {
+        spotify: "<:spotify:1405838138454315018>",
+        youtube: "<:ytmusic:1405839056587329586>"
+    }
 
     public static readonly MEDIA = {
         pause: "<:pause:1034451169839423518>",

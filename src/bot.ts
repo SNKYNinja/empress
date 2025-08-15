@@ -1,6 +1,7 @@
 import { Client, Collection, GatewayIntentBits, Partials, version } from "discord.js"
 import { CommandInterface, EventInterface, ButtonInterface, SelectMenuInterface, ConfigInterface } from "typings"
 import { config } from "./config.js"
+import { NodeGroup, Poru, PoruOptions } from "poru"
 
 import { SlashCommandHandler, ComponentInteractionHandler, ClientEventHandler } from "./handlers/index.js"
 const { loadCommands } = new SlashCommandHandler()
@@ -9,7 +10,7 @@ const { loadButtons, loadSelectMenus } = new ComponentInteractionHandler()
 
 import { connect } from "mongoose"
 
-import { Logger } from "./services/index.js"
+import { Logger, PoruService } from "./services/index.js"
 
 import { createRequire } from "node:module"
 const require = createRequire(import.meta.url)
@@ -23,6 +24,7 @@ export class DiscordClient extends Client {
     public selectMenus: Collection<string, SelectMenuInterface>
     public cooldowns: Collection<string, number>
     public config: ConfigInterface
+    public poru!: Poru
 
     constructor() {
         super({
@@ -85,6 +87,9 @@ export class DiscordClient extends Client {
                 loadSelectMenus(this),
                 this.connectDatabase()
             ])
+
+            PoruService.setupPoru(this)
+
             await this.login(this.config.bot.token)
 
             Logger.info(logs.info.clientLogin.replaceAll("{USER_TAG}", this.user?.tag))
