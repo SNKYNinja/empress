@@ -14,7 +14,7 @@ export class Colors {
         darkAqua: "#11806A",
         green: "#2ECC71",
         darkGreen: "#1F8B4C",
-        blue: "#3498DB",
+        blue: hexToRgb("#3498DB"),
         darkBlue: "#206694",
         purple: "#9B59B6",
         darkPurple: "#71368A",
@@ -33,7 +33,8 @@ export class Colors {
         navy: "#34495E",
         darkNavy: "#2C3E50",
         yellow: "#FFFF00"
-    } as { [key: string]: ColorResolvable }
+        // } as { [key: string]: ColorResolvable }
+    }
 
     public static readonly DISCORD = {
         white: hexToRgb("#FFFFFF"),

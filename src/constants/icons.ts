@@ -27,4 +27,17 @@ export class Icons {
         pause: "<:pause:1034451169839423518>",
         play: "<:play:1049700245715562607>"
     } as { [key: string]: string }
+
+    public static readonly MUSIC = {
+        play: "▶️",
+        pause: "⏸️",
+        stop: "⏹️",
+        skip: "⏭️",
+        previous: "⏮️",
+        shuffle: "🔀",
+        repeat: "🔄",
+        loop: "🔁",
+        queue: "📋",
+        like: "❤️"
+    }
 }

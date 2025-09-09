@@ -5,7 +5,8 @@ import {
     PermissionFlagsBits,
     SlashCommandBuilder,
     type ChatInputCommandInteraction,
-    type GuildMember
+    type GuildMember,
+    MessageFlags
 } from "discord.js"
 import type { CommandInterface } from "typings"
 import { EmbedHandler } from "../../services/index.js"
@@ -64,7 +65,7 @@ const command: CommandInterface = {
         }
     },
     execute: async (interaction: ChatInputCommandInteraction, client: DiscordClient) => {
-        await interaction.deferReply()
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral })
 
         const query = interaction.options.getString("query", true)
         const member = interaction.member as GuildMember
