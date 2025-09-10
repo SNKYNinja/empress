@@ -20,6 +20,13 @@ export const toPascalCase = (text: string, options: { separator?: string } = {})
     return options.separator ? splitPascalCase(pascalCase, options.separator) : pascalCase
 }
 
+export const formatDuration = (ms: number): string => {
+    return `${Math.floor(ms / 60000)}:${Math.floor((ms % 60000) / 1000)
+        .toString()
+        .padStart(2, "0")}`
+
+}
+
 export const getChannelCountByTypes = (channels: GuildChannelManager, types: readonly ChannelType[]): number => {
     return channels.cache.filter((channel) => types.includes(channel.type)).size
 }
@@ -82,7 +89,8 @@ export const maxDisplayRoles = (roles: Role[], maxFieldLength = DEFAULT_FIELD_LI
 
 export const StringUtils = {
     splitPascalCase,
-    toPascalCase
+    toPascalCase,
+    formatDuration
 } as const
 
 export const DiscordUtils = {

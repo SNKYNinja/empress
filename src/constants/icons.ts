@@ -1,3 +1,5 @@
+import { ApplicationEmoji } from "discord.js"
+
 export class Icons {
     public static readonly STATUS = {
         success: "<:checkmark:1404455160683696208>",
@@ -29,15 +31,70 @@ export class Icons {
     } as { [key: string]: string }
 
     public static readonly MUSIC = {
-        play: "▶️",
-        pause: "⏸️",
-        stop: "⏹️",
-        skip: "⏭️",
-        previous: "⏮️",
-        shuffle: "🔀",
-        repeat: "🔄",
-        loop: "🔁",
-        queue: "📋",
-        like: "❤️"
+        play: {
+            name: "play",
+            id: "1415186265325703259",
+            animated: false,
+        },
+        pause: {
+            name: "pause",
+            id: "1415188041756049470",
+            animated: false,
+        },
+        stop: {
+            name: "stop",
+            id: "1415188017114775663",
+            animated: false,
+        },
+        skip: {
+            name: "skip",
+            id: "1415188055316369418",
+            animated: false,
+        },
+        previous: {
+            name: "prev",
+            id: "1415188069446975529",
+            animated: false,
+        },
+        shuffle: {
+            name: "shuffle",
+            id: "1415188030389485659",
+            animated: false,
+        },
+        repeat: {
+            name: "repeat",
+            id: "1415187989859930114",
+            animated: false,
+        },
+        loop: {
+            name: "loop",
+            id: "1415188081450942526",
+            animated: false,
+        },
+        loop_once: {
+            name: "loop_once",
+            id: "1415191116189274152",
+            animated: false,
+        },
+        loop_queue: {
+            name: "loop_queue",
+            id: "1415191105368100884",
+            animated: false,
+        },
+        queue: {
+            name: "queue",
+            id: "1415187972344778835",
+            animated: false,
+        },
+        like: {
+            name: "like",
+            id: "1415188002681917450",
+            animated: false,
+        },
+        playlist: {
+            name: "playlist",
+            id: "1415188270220050443",
+            animated: false,
+        }
     }
 }

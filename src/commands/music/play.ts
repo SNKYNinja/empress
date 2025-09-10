@@ -6,11 +6,13 @@ import {
     SlashCommandBuilder,
     type ChatInputCommandInteraction,
     type GuildMember,
-    MessageFlags
+    MessageFlags,
+    type RGBTuple
 } from "discord.js"
 import type { CommandInterface } from "typings"
 import { EmbedHandler } from "../../services/index.js"
 import { Colors, DiscordLimits, Icons } from "../../constants/index.js"
+import { formatDuration } from "../../functions/utils.js"
 
 const command: CommandInterface = {
     data: new SlashCommandBuilder()
@@ -115,20 +117,29 @@ const command: CommandInterface = {
                     player.queue.add(track)
                 })
 
-                const icon = getPlatformIcon(tracks[0].info.uri || query)
+                const firstTrack = tracks[0]
+                const platformInfo = getPlatformInfo(firstTrack.info.uri || query)
+                const isNowPlaying = !player.isPlaying && !player.isPaused
+
+                // Calculate total duration of playlist
+                const totalDuration = tracks.reduce((total, track) => total + (track.info.length || 0), 0)
+                const formattedDuration = formatDuration(totalDuration)
 
                 const playlistEmbed = EmbedHandler.create({
-                    color: Colors.DISCORD.green,
-                    description: `${icon} **${tracks.length}** tracks added from **${playlistInfo?.name || "Unknown Playlist"}**`,
+                    color: platformInfo.color,
+                    title: playlistInfo?.name || "Unknown Playlist",
+                    thumbnail: firstTrack.info.artworkUrl || "/placeholder.svg?height=120&width=120",
+                    description: `${platformInfo.icon} **Added to Queue** • Position ${player.queue.length - tracks.length + 1} - ${player.queue.length}`,
                     fields: [
                         {
-                            name: "Position in Queue",
-                            value: `${player.queue.length - tracks.length + 1} - ${player.queue.length}`,
+                            name: "Tracks",
+                            value: `\`${tracks.length}\``,
                             inline: true
                         },
+                        { name: '\u200B', value: '\u200B', inline: true },
                         {
-                            name: "Requested By",
-                            value: member.displayName,
+                            name: "Duration",
+                            value: `\`${formattedDuration}\``,
                             inline: true
                         }
                     ]
@@ -140,33 +151,27 @@ const command: CommandInterface = {
                 track.info.requester = member
                 player.queue.add(track)
 
-                const { title, uri, artworkUrl, length, author } = track.info
-                const duration = formatDuration(length)
+                const { title, uri, artworkUrl, author } = track.info
+                const duration = formatDuration(track.info.length)
                 const isNowPlaying = !player.isPlaying && !player.isPaused
-                const icon = getPlatformIcon(tracks[0].info.uri || query)
+                const { color, icon } = getPlatformInfo(track.info.uri || query)
 
                 const trackEmbed = EmbedHandler.create({
-                    color: Colors.DISCORD.green,
+                    color: color,
                     title: title.length > 60 ? `${title.substring(0, 57)}...` : title,
                     url: uri!,
                     thumbnail: artworkUrl || "/placeholder.svg?height=120&width=120",
-                    description: `${icon} ${
-                        isNowPlaying ? "**Now Playing**" : `**Added to Queue** • Position ${player.queue.length}`
-                    }`,
+                    description: `${icon} **Added to Queue** • Position ${player.queue.length}`,
                     fields: [
                         {
                             name: "Artist",
                             value: author || "Unknown Artist",
                             inline: true
                         },
+                        { name: '\u200B', value: '\u200B', inline: true },
                         {
                             name: "Duration",
-                            value: duration,
-                            inline: true
-                        },
-                        {
-                            name: "Requested By",
-                            value: member.displayName,
+                            value: `\`${duration}\``,
                             inline: true
                         }
                     ]
@@ -185,13 +190,21 @@ const command: CommandInterface = {
     }
 }
 
-function getPlatformIcon(uri: string): string {
-    if (!uri) return ""
+function getPlatformInfo(uri: string) {
+    if (!uri) {
+        return {
+            icon: "",
+            color: Colors.DISCORD.green
+        }
+    }
 
     const lowerUri = uri.toLowerCase()
 
     if (lowerUri.includes("spotify.com") || lowerUri.includes("open.spotify") || lowerUri.startsWith("spotify:")) {
-        return `${Icons.LOGO.spotify} `
+        return {
+            icon: `${Icons.LOGO.spotify} `,
+            color: Colors.DISCORD.green
+        }
     }
 
     if (
@@ -200,24 +213,16 @@ function getPlatformIcon(uri: string): string {
         lowerUri.includes("youtu.be") ||
         lowerUri.includes("ytmusic")
     ) {
-        return `${Icons.LOGO.youtube} `
+        return {
+            icon: `${Icons.LOGO.youtube} `,
+            color: Colors.DISCORD.red
+        }
     }
 
-    return ""
-}
-
-function formatDuration(ms: number): string {
-    if (!ms || ms === 0) return "Live"
-
-    const seconds = Math.floor(ms / 1000)
-    const minutes = Math.floor(seconds / 60)
-    const hours = Math.floor(minutes / 60)
-
-    if (hours > 0) {
-        return `${hours}:${(minutes % 60).toString().padStart(2, "0")}:${(seconds % 60).toString().padStart(2, "0")}`
+    return {
+        icon: "",
+        color: Colors.DISCORD.green
     }
-
-    return `${minutes}:${(seconds % 60).toString().padStart(2, "0")}`
 }
 
 export default command

@@ -1,17 +1,25 @@
 import { type NodeGroup, Poru, type PoruOptions } from "poru"
 import type { DiscordClient } from "../bot.js"
 import { Logger } from "./logger.js"
-import { ActionRowBuilder, APIMessageComponentEmoji, ButtonStyle, TextChannel } from "discord.js"
+import { ActionRowBuilder, ButtonStyle, TextChannel, Message, User, GuildMember } from "discord.js"
 import { ButtonBuilder } from "@discordjs/builders"
 import { Icons, Colors } from "../constants/index.js"
 import { EmbedHandler } from "./embed.js"
+import { formatDuration } from "../functions/utils.js"
+
+// Extend Poru types to include custom properties
+declare module "poru" {
+    interface Player {
+        message?: Message
+    }
+}
 
 const nodes: NodeGroup[] = [
     {
         name: "Node 1",
-        host: "lava-v4.ajieblogs.eu.org",
+        host: "pool-us.alfari.id",
         port: 443,
-        password: "https://dsc.gg/ajidevserver",
+        password: "alfari",
         secure: true
     }
 ]
@@ -27,10 +35,6 @@ export class PoruService {
         client.poru = new Poru(client, nodes, options)
 
         client.poru.on("trackStart", (player, track) => {
-            // const channel = client.channels.cache.get(player.textChannel)
-            // if (channel && "send" in channel) {
-            //     channel.send(`Now playing \`${track.info.title}\``)
-            // }
 
             const source = track.info.sourceName.charAt(0).toUpperCase() + track.info.sourceName.slice(1)
             const nextTrack = player.queue[0]?.info
@@ -38,90 +42,98 @@ export class PoruService {
                 ? `[${nextTrack.title.length > 35 ? nextTrack.title.substring(0, 35) + "..." : nextTrack.title}](${nextTrack.uri})`
                 : "None"
 
-            // // Determine loop status
-            let loopEmoji: string
+            // Determine loop status
+            let loopEmoji: any
             switch (player.loop) {
                 case "TRACK":
-                    loopEmoji = "🔂"
+                    loopEmoji = Icons.MUSIC.loop_once
                     break
                 case "QUEUE":
-                    loopEmoji = "🔁"
+                    loopEmoji = Icons.MUSIC.loop_queue
                     break
                 default:
-                    loopEmoji = "↩️"
+                    loopEmoji = Icons.MUSIC.loop
             }
-            // Create main control row
+
+            // Create first control row: loop, previous, pause, skip, playlist
             const controlRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
                 new ButtonBuilder()
                     .setCustomId("loop")
-                    .setEmoji({
-                        name: loopEmoji
-                    })
+                    .setEmoji(loopEmoji)
                     .setStyle(ButtonStyle.Secondary),
                 new ButtonBuilder()
                     .setCustomId("prev")
-                    .setEmoji({ name: Icons.MUSIC.previous })
+                    .setEmoji(Icons.MUSIC.previous)
                     .setStyle(ButtonStyle.Primary)
                     .setDisabled(!player.previousTrack),
                 new ButtonBuilder()
                     .setCustomId("p/p")
-                    .setEmoji({ name: Icons.MUSIC.pause })
+                    .setEmoji(Icons.MUSIC.pause)
                     .setStyle(ButtonStyle.Secondary),
                 new ButtonBuilder()
                     .setCustomId("skip")
-                    .setEmoji({ name: Icons.MUSIC.skip })
+                    .setEmoji(Icons.MUSIC.skip)
                     .setStyle(ButtonStyle.Primary),
                 new ButtonBuilder()
-                    .setCustomId("stop")
-                    .setEmoji({ name: Icons.MUSIC.stop })
-                    .setStyle(ButtonStyle.Danger)
+                    .setCustomId("playlist")
+                    .setEmoji(Icons.MUSIC.playlist)
+                    .setStyle(ButtonStyle.Secondary)
             )
 
-            // Create secondary control row
+            // Create second control row: stop, shuffle
             const secondaryRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
                 new ButtonBuilder()
-                    .setCustomId("shuffle")
-                    .setEmoji({ name: Icons.MUSIC.shuffle })
+                    .setCustomId("stop")
+                    .setEmoji(Icons.MUSIC.stop)
                     .setStyle(ButtonStyle.Secondary),
                 new ButtonBuilder()
-                    .setCustomId("queue")
-                    .setEmoji({ name: Icons.MUSIC.queue })
+                    .setCustomId("shuffle")
+                    .setEmoji(Icons.MUSIC.shuffle)
                     .setStyle(ButtonStyle.Secondary),
                 new ButtonBuilder()
                     .setCustomId("like")
-                    .setEmoji({ name: Icons.MUSIC.like })
+                    .setEmoji(Icons.MUSIC.like)
                     .setStyle(ButtonStyle.Secondary),
                 new ButtonBuilder()
                     .setCustomId("repeat")
-                    .setEmoji({ name: Icons.MUSIC.repeat })
+                    .setEmoji(Icons.MUSIC.repeat)
+                    .setStyle(ButtonStyle.Secondary),
+                new ButtonBuilder()
+                    .setCustomId("queue")
+                    .setEmoji(Icons.MUSIC.queue)
                     .setStyle(ButtonStyle.Secondary)
             )
 
             // Format duration
-            const duration = track.info.length
-                ? `${Math.floor(track.info.length / 60000)}:${Math.floor((track.info.length % 60000) / 1000)
-                      .toString()
-                      .padStart(2, "0")}`
-                : "Live"
+            const duration = formatDuration(track.info.length)
+
+            const channel = client.channels.cache.get(player.textChannel) as TextChannel
 
             const embed = EmbedHandler.create({
-                title: "🎵 Now Playing",
-                description:
-                    `**[${track.info.title}](${track.info.uri})**\n\n` +
-                    `**Artist:** ${track.info.author}\n` +
-                    `**Duration:** \`${duration}\`\n` +
-                    `**Source:** ${source}\n` +
-                    `**Requested by:** <@${track.info.requester?.id}>\n\n` +
-                    `**Next:** ${nextTrackText}`,
+                author: {
+                    name: channel.guild.name,
+                    iconURL: channel.guild.iconURL({ size: 64 }) ?? undefined
+                },
+                title: "Now Playing",
+                description: `**[${track.info.title}](${track.info.uri})**`,
                 color: Colors.ALL.blue,
-                thumbnail: track.info.artworkUrl,
-                timestamp: true,
-                image: track.info.artworkUrl
+                image: track.info.artworkUrl,
+                fields: [
+                    { name: "Author", value: track.info.author.split(',').join(', '), inline: true },
+                    { name: '\u200B', value: '\u200B', inline: true },
+                    { name: "Duration", value: `\`${duration}\``, inline: true },
+                    { name: "Next Track", value: nextTrackText, inline: true },
+                    { name: '\u200B', value: '\u200B', inline: true },
+                    { name: "Requested By", value: track.info.requester ? `<@${track.info.requester.id}>` : "Unknown", inline: true }
+                ],
+                footer: {
+                    text: (track.info.requester as GuildMember).displayName || "Unknown",
+                    iconURL: track.info.requester?.displayAvatarURL({ size: 1024 }) || undefined
+                },
+                timestamp: true
             })
-            const channel = client.channels.cache.get(player.textChannel) as TextChannel
             // Clean up previous message
-            // @ts-ignore-error
-            player.message?.delete().catch(() => {})
+            player.message?.delete().catch(() => { })
             // Send new player message
             channel
                 ?.send({
@@ -129,10 +141,9 @@ export class PoruService {
                     components: [controlRow, secondaryRow]
                 })
                 .then((message) => {
-                    // @ts-ignore-error
                     player.message = message
                 })
-                .catch(() => {})
+                .catch(() => { })
         })
 
         // Track end event

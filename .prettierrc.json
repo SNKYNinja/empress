@@ -1,12 +1,7 @@
 {
-    "arrowParens": "always",
-    "bracketSpacing": true,
-    "endOfLine": "lf",
-    "parser": "typescript",
-    "printWidth": 120,
-    "semi": false,
+    "semi": true,
+    "trailingComma": "es5",
     "singleQuote": false,
-    "tabWidth": 4,
-    "trailingComma": "none",
-    "useTabs": false
+    "printWidth": 80,
+    "tabWidth": 4
 }
