@@ -13,6 +13,9 @@
         "commandOther": "[{INTERACTION_ID}] An error occurred while executing the '{COMMAND_NAME}' command for user '{USER_TAG}' ({USER_ID})",
         "autocompleteNotFound": "[{INTERACTION_ID}] An autocomplete method for the '{COMMAND_NAME}' command could not be found",
         "autocompleteGuild": "[{INTERACTION_ID}] An error occurred while autocompleting the '{OPTION_NAME}' option for the '{COMMAND_NAME}' command for user '{USER_TAG}' ({USER_ID}) in channel '{CHANNEL_NAME}' ({CHANNEL_ID}) in guild '{GUILD_NAME}' ({GUILD_ID})",
-        "autocompleteOther": "[{INTERACTION_ID}] An error occurred while autocompleting the '{OPTION_NAME}' option for the '{COMMAND_NAME}' command for user '{USER_TAG}' ({USER_ID})"
+        "autocompleteOther": "[{INTERACTION_ID}] An error occurred while autocompleting the '{OPTION_NAME}' option for the '{COMMAND_NAME}' command for user '{USER_TAG}' ({USER_ID})",
+        "buttonNotFound": "[{INTERACTION_ID}] A button with the id '{BUTTON_ID}' could not be found",
+        "buttonGuild": "[{INTERACTION_ID}] An error occurred while executing the '{BUTTON_ID}' button for user '{USER_TAG}' ({USER_ID}) in channel '{CHANNEL_NAME}' ({CHANNEL_ID}) in guild '{GUILD_NAME}' ({GUILD_ID})",
+        "buttonOther": "[{INTERACTION_ID}] An error occurred while executing the '{BUTTON_ID}' button for user '{USER_TAG}' ({USER_ID})"
     }
 }

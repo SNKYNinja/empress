@@ -1,14 +1,17 @@
 import { DiscordClient } from "bot"
-import { ButtonInteraction, Events } from "discord.js"
+import { ButtonInteraction, Events, NewsChannel, TextChannel, ThreadChannel } from "discord.js"
 import { EventInterface } from "typings"
 
 import { config } from "../../config.js"
-
-import { EmbedHandler } from "../../services/embed.js"
+import { Logger, EmbedHandler } from "../../services/index.js"
 
 import { RateLimiter } from "discord.js-rate-limiter"
 
 const rateLimiter = new RateLimiter(config.rateLimits.commands.amount, config.rateLimits.commands.interval)
+
+import { createRequire } from "node:module"
+const require = createRequire(import.meta.url)
+const logs = require("../../../config/logs.json")
 
 const event: EventInterface = {
     name: Events.InteractionCreate,
@@ -25,9 +28,39 @@ const event: EventInterface = {
 
         const button = client.buttons.get(interaction.customId)
 
-        if (!button) return EmbedHandler.error(interaction, "Button not found...")
+        if (!button) {
+            Logger.error(
+                logs.error.buttonNotFound
+                    .replaceAll("{INTERACTION_ID}", interaction.id)
+                    .replaceAll("{BUTTON_ID}", interaction.customId)
+            )
+            return EmbedHandler.error(interaction, "Button not found...")
+        }
 
-        button.execute(interaction, client)
+        try {
+            button.execute(interaction, client)
+        } catch (err) {
+            Logger.error(
+                interaction.channel instanceof TextChannel ||
+                    interaction.channel instanceof NewsChannel ||
+                    interaction.channel instanceof ThreadChannel
+                    ? logs.error.buttonGuild
+                        .replaceAll("{INTERACTION_ID}", interaction.id)
+                        .replaceAll("{BUTTON_ID}", interaction.customId)
+                        .replaceAll("{USER_TAG}", interaction.user.tag)
+                        .replaceAll("{USER_ID}", interaction.user.id)
+                        .replaceAll("{CHANNEL_NAME}", interaction.channel.name)
+                        .replaceAll("{CHANNEL_ID}", interaction.channel.id)
+                        .replaceAll("{GUILD_NAME}", interaction.guild?.name ?? "Unknown Guild")
+                        .replaceAll("{GUILD_ID}", interaction.guild?.id ?? "Unknown ID")
+                    : logs.error.buttonOther
+                        .replaceAll("{INTERACTION_ID}", interaction.id)
+                        .replaceAll("{BUTTON_ID}", interaction.customId)
+                        .replaceAll("{USER_TAG}", interaction.user.tag)
+                        .replaceAll("{USER_ID}", interaction.user.id),
+                err
+            )
+        }
     }
 }
 
