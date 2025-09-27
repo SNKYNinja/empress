@@ -1,30 +1,40 @@
-import { Client, Collection, GatewayIntentBits, Partials, version } from "discord.js"
-import { CommandInterface, EventInterface, ButtonInterface, SelectMenuInterface, ConfigInterface } from "typings"
-import { config } from "./config.js"
-import { NodeGroup, Poru, PoruOptions } from "poru"
+import { Client, Collection, GatewayIntentBits, Partials, version } from "discord.js";
+import {
+    CommandInterface,
+    EventInterface,
+    ButtonInterface,
+    SelectMenuInterface,
+    ConfigInterface,
+} from "typings";
+import { config } from "./config.js";
+import { Poru } from "poru";
 
-import { SlashCommandHandler, ComponentInteractionHandler, ClientEventHandler } from "./handlers/index.js"
-const { loadCommands } = new SlashCommandHandler()
-const { loadEvents } = new ClientEventHandler()
-const { loadButtons, loadSelectMenus } = new ComponentInteractionHandler()
+import {
+    SlashCommandHandler,
+    ComponentInteractionHandler,
+    ClientEventHandler,
+} from "./handlers/index.js";
+const { loadCommands } = new SlashCommandHandler();
+const { loadEvents } = new ClientEventHandler();
+const { loadButtons, loadSelectMenus } = new ComponentInteractionHandler();
 
-import { connect } from "mongoose"
+import { connect } from "mongoose";
 
-import { Logger, PoruService } from "./services/index.js"
+import { Logger, PoruService } from "./services/index.js";
 
-import { createRequire } from "node:module"
-const require = createRequire(import.meta.url)
-const logs = require("../config/logs.json")
+import { createRequire } from "node:module";
+const require = createRequire(import.meta.url);
+const logs = require("../config/logs.json");
 
 export class DiscordClient extends Client {
-    public commands: Collection<string, CommandInterface>
-    public subcommands: Collection<string, CommandInterface>
-    public events: Collection<string, EventInterface>
-    public buttons: Collection<string, ButtonInterface>
-    public selectMenus: Collection<string, SelectMenuInterface>
-    public cooldowns: Collection<string, number>
-    public config: ConfigInterface
-    public poru!: Poru
+    public commands: Collection<string, CommandInterface>;
+    public subcommands: Collection<string, CommandInterface>;
+    public events: Collection<string, EventInterface>;
+    public buttons: Collection<string, ButtonInterface>;
+    public selectMenus: Collection<string, SelectMenuInterface>;
+    public cooldowns: Collection<string, number>;
+    public config: ConfigInterface;
+    public poru!: Poru;
 
     constructor() {
         super({
@@ -47,7 +57,7 @@ export class DiscordClient extends Client {
                 GatewayIntentBits.GuildVoiceStates,
                 GatewayIntentBits.GuildWebhooks,
                 GatewayIntentBits.Guilds,
-                GatewayIntentBits.MessageContent
+                GatewayIntentBits.MessageContent,
             ],
             partials: [
                 Partials.Channel,
@@ -56,25 +66,25 @@ export class DiscordClient extends Client {
                 Partials.Message,
                 Partials.Reaction,
                 Partials.ThreadMember,
-                Partials.User
-            ]
-        })
+                Partials.User,
+            ],
+        });
 
-        this.commands = new Collection()
-        this.subcommands = new Collection()
-        this.events = new Collection()
-        this.buttons = new Collection()
-        this.selectMenus = new Collection()
-        this.config = config
-        this.cooldowns = new Collection()
+        this.commands = new Collection();
+        this.subcommands = new Collection();
+        this.events = new Collection();
+        this.buttons = new Collection();
+        this.selectMenus = new Collection();
+        this.config = config;
+        this.cooldowns = new Collection();
     }
 
     private async connectDatabase() {
         try {
-            const conn = await connect(process.env.DATABASE_URL)
-            Logger.info(logs.info.dbConnection.replaceAll("{PORT}", conn.connection.port))
+            const conn = await connect(process.env.DATABASE_URL);
+            Logger.info(logs.info.dbConnection.replaceAll("{PORT}", conn.connection.port));
         } catch (err) {
-            Logger.warn(logs.error.dbConnection, err)
+            Logger.warn(logs.error.dbConnection, err);
         }
     }
 
@@ -85,18 +95,18 @@ export class DiscordClient extends Client {
                 loadEvents(this),
                 loadButtons(this),
                 loadSelectMenus(this),
-                this.connectDatabase()
-            ])
+                this.connectDatabase(),
+            ]);
 
-            PoruService.setupPoru(this)
+            PoruService.setupPoru(this);
 
-            await this.login(this.config.bot.token)
+            await this.login(this.config.bot.token);
 
-            Logger.info(logs.info.clientLogin.replaceAll("{USER_TAG}", this.user?.tag))
+            Logger.info(logs.info.clientLogin.replaceAll("{USER_TAG}", this.user?.tag));
         } catch (err) {
-            Logger.warn(logs.error.clientLogin, err)
+            Logger.warn(logs.error.clientLogin, err);
         }
     }
 }
 
-new DiscordClient().loadClient()
+new DiscordClient().loadClient();

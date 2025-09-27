@@ -7,7 +7,6 @@ import {
     type ChatInputCommandInteraction,
     type GuildMember,
     MessageFlags,
-    type RGBTuple,
 } from "discord.js";
 import type { CommandInterface } from "typings";
 import { EmbedHandler } from "../../services/index.js";

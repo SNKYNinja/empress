@@ -1,5 +1,3 @@
-import { ApplicationEmoji, Emoji } from "discord.js";
-
 export class Icons {
     public static readonly STATUS = {
         success: "<:checkmark:1404455160683696208>",
@@ -29,6 +27,29 @@ export class Icons {
         pause: "<:pause:1034451169839423518>",
         play: "<:play:1049700245715562607>",
     } as { [key: string]: string };
+
+    public static readonly NAVIGATION = {
+        back: {
+            name: "back",
+            id: "1420052021511323718",
+            animated: false,
+        },
+        backward: {
+            name: "backward",
+            id: "1420052013344882719",
+            animated: false,
+        },
+        front: {
+            name: "front",
+            id: "1420052004633579593",
+            animated: false,
+        },
+        forward: {
+            name: "forward",
+            id: "1420051996458750072",
+            animated: false,
+        },
+    };
 
     public static readonly MUSIC = {
         play: {
