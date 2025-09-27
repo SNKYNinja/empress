@@ -14,7 +14,6 @@ import { Colors, DiscordLimits, Icons } from "../../constants/index.js";
 import { formatDuration } from "../../functions/utils.js";
 
 const command: CommandInterface = {
-    player: true,
     data: new SlashCommandBuilder()
         .setName("play")
         .setDescription("Play a track or playlist")
@@ -79,7 +78,7 @@ const command: CommandInterface = {
         if (!permissions?.has(["Connect", "Speak"])) {
             const errorEmbed = EmbedHandler.error(
                 interaction,
-                "I don't have permission to join or speak in that voice channel"
+                "*I don't have permission to join or speak in that voice channel*"
             );
             return interaction.editReply({ embeds: [errorEmbed] });
         }
@@ -106,7 +105,7 @@ const command: CommandInterface = {
             if (loadType === "error" || loadType === "empty") {
                 const errorEmbed = EmbedHandler.error(
                     interaction,
-                    `No results found for **${query}**`
+                    `*No results found for **${query}***`
                 );
                 return interaction.editReply({ embeds: [errorEmbed] });
             }
@@ -192,7 +191,7 @@ const command: CommandInterface = {
         } catch (err) {
             const errorEmbed = EmbedHandler.error(
                 interaction,
-                "An error occurred while processing your request"
+                "*An error occurred while processing your request*"
             );
             await interaction.editReply({ embeds: [errorEmbed] });
         }
