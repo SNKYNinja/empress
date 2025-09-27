@@ -22,6 +22,8 @@ const formatLong = (ms: number): string => {
 
 const button: ButtonInterface = {
     id: "queue",
+    player: true,
+    currentTrack: true,
     execute: async (interaction: ButtonInteraction, client: DiscordClient) => {
         const player = client.poru.players.get(interaction.guild!.id)!;
 

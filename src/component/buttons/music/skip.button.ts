@@ -6,6 +6,8 @@ import { Colors } from "../../../constants/index.js";
 
 const button: ButtonInterface = {
     id: "skip",
+    player: true,
+    currentTrack: true,
     execute: async (interaction: ButtonInteraction, client: DiscordClient) => {
         const player = client.poru.players.get(interaction.guild!.id)!;
 
@@ -20,9 +22,7 @@ const button: ButtonInterface = {
                 name: interaction.user.username,
                 iconURL: interaction.user.displayAvatarURL(),
             },
-            description: uri
-                ? `*Skipped ― [${title}](${uri})*`
-                : `*Skipped ― ${title}*`,
+            description: uri ? `*Skipped ― [${title}](${uri})*` : `*Skipped ― ${title}*`,
             color: Colors.ALL.blue,
             timestamp: true,
         });

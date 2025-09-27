@@ -6,6 +6,7 @@ import { Colors } from "../../../constants/index.js";
 
 const button: ButtonInterface = {
     id: "shuffle",
+    player: true,
     execute: async (interaction: ButtonInteraction, client: DiscordClient) => {
         const player = client.poru.players.get(interaction.guild!.id)!;
 

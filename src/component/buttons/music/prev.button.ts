@@ -6,14 +6,13 @@ import { Colors } from "../../../constants/index.js";
 
 const button: ButtonInterface = {
     id: "prev",
+    player: true,
+    currentTrack: true,
     execute: async (interaction: ButtonInteraction, client: DiscordClient) => {
         const player = client.poru.players.get(interaction.guild!.id)!;
 
         if (!player.previousTrack) {
-            const embed = EmbedHandler.error(
-                interaction,
-                "*No previous track was found!*"
-            );
+            const embed = EmbedHandler.error(interaction, "*No previous track was found!*");
 
             return interaction.reply({
                 embeds: [embed],

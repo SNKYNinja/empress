@@ -14,6 +14,7 @@ import { Colors, DiscordLimits, Icons } from "../../constants/index.js";
 import { formatDuration } from "../../functions/utils.js";
 
 const command: CommandInterface = {
+    player: true,
     data: new SlashCommandBuilder()
         .setName("play")
         .setDescription("Play a track or playlist")
@@ -74,15 +75,7 @@ const command: CommandInterface = {
         const member = interaction.member as GuildMember;
         const voiceChannel = member.voice.channel;
 
-        if (!voiceChannel) {
-            const errorEmbed = EmbedHandler.error(
-                interaction,
-                "You need to be in a voice channel to play music"
-            );
-            return interaction.editReply({ embeds: [errorEmbed] });
-        }
-
-        const permissions = voiceChannel.permissionsFor(interaction.guild!.members.me!);
+        const permissions = voiceChannel!.permissionsFor(interaction.guild!.members.me!);
         if (!permissions?.has(["Connect", "Speak"])) {
             const errorEmbed = EmbedHandler.error(
                 interaction,
@@ -96,7 +89,7 @@ const command: CommandInterface = {
                 client.poru.players.get(interaction.guild!.id) ??
                 client.poru.createConnection({
                     guildId: interaction.guild!.id,
-                    voiceChannel: voiceChannel.id,
+                    voiceChannel: voiceChannel!.id,
                     textChannel: interaction.channel!.id,
                     deaf: true,
                     mute: false,

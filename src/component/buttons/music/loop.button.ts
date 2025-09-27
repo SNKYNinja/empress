@@ -7,6 +7,8 @@ import { EmbedHandler } from "../../../services/index.js";
 
 const button: ButtonInterface = {
     id: "loop",
+    player: true,
+    currentTrack: true,
     execute: async (interaction: ButtonInteraction, client: DiscordClient) => {
         const player = client.poru.players.get(interaction.guild!.id)!;
 

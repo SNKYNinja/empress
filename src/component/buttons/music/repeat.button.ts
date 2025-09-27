@@ -6,14 +6,13 @@ import { ButtonInterface } from "typings";
 
 const button: ButtonInterface = {
     id: "repeat",
+    player: true,
+    currentTrack: true,
     execute: async (interaction: ButtonInteraction, client: DiscordClient) => {
         const player = client.poru.players.get(interaction.guild!.id)!;
 
         if (!player.currentTrack?.info.isSeekable) {
-            const embed = EmbedHandler.error(
-                interaction,
-                "*Track is not seekable!*"
-            );
+            const embed = EmbedHandler.error(interaction, "*Track is not seekable!*");
 
             return interaction.reply({
                 embeds: [embed],
