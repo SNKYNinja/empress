@@ -1,3 +1,3 @@
-export { SlashCommandHandler } from "./commandHandler.js"
-export { ClientEventHandler } from "./eventHandler.js"
-export { ComponentInteractionHandler } from "./componentHandler.js"
+export { SlashCommandHandler } from "./command.handler.js";
+export { ClientEventHandler } from "./event.handler.js";
+export { ComponentInteractionHandler } from "./component.handler.js";
