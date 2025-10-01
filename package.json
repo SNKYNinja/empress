@@ -10,13 +10,16 @@
     "start": "pnpm build && pm2 start process.json",
     "stop": "pm2 delete all",
     "restart": "pm2 restart all",
-    "logs": "pm2 logs"
+    "logs": "pm2 logs",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,json,md,yml,yaml}\"",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "prepare": "lefthook install"
   },
   "keywords": [
     "discord",
     "bot"
   ],
-  "author": "Aditya",
+  "author": "Aditya Chaudhary",
   "license": "MIT",
   "dependencies": {
     "@discordjs/builders": "^1.11.2",
