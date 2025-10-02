@@ -57,7 +57,7 @@ jobs:
 
             - name: Mark Deployment Success
               if: success()
-              uses: octokit/request-action@v2
+              uses: octokit/request-action
               with:
                   route: POST /repos/${{ github.repository }}/deployments/${{ steps.deployment.outputs.id }}/statuses
                   state: success
@@ -66,7 +66,7 @@ jobs:
 
             - name: Mark Deployment Failure
               if: failure()
-              uses: octokit/request-action@v2
+              uses: octokit/request-action
               with:
                   route: POST /repos/${{ github.repository }}/deployments/${{ steps.deployment.outputs.id }}/statuses
                   state: failure
