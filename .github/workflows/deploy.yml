@@ -47,7 +47,7 @@ jobs:
                   script: |
                       cd ${{ secrets.EC2_PATH }}
                       git fetch --all
-                      git reset --hard origin/main
+                      git reset --hard origin/v2
                       pnpm install --prod
                       pnpm restart
 
