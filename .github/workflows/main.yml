@@ -30,7 +30,7 @@ jobs:
 
             - name: Create GitHub Deployment
               id: deployment
-              uses: octokit/request-action@v2
+              uses: octokit/request-action
               with:
                   route: POST /repos/${{ github.repository }}/deployments
                   ref: ${{ github.ref }}
