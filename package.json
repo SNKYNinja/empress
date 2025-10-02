@@ -12,8 +12,7 @@
     "restart": "pm2 restart all",
     "logs": "pm2 logs",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,json,md,yml,yaml}\"",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
-    "prepare": "lefthook install"
+    "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "keywords": [
     "discord",
