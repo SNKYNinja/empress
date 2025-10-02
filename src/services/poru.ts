@@ -1,13 +1,7 @@
 import { type NodeGroup, Poru, type PoruOptions, type Player } from "poru";
 import type { DiscordClient } from "../bot.js";
 import { Logger } from "./logger.js";
-import {
-    ActionRowBuilder,
-    ButtonStyle,
-    TextChannel,
-    Message,
-    GuildMember,
-} from "discord.js";
+import { ActionRowBuilder, ButtonStyle, TextChannel, Message, GuildMember } from "discord.js";
 import { ButtonBuilder } from "@discordjs/builders";
 import { Icons, Colors } from "../constants/index.js";
 import { EmbedHandler } from "./embed.js";
@@ -23,10 +17,10 @@ declare module "poru" {
 const nodes: NodeGroup[] = [
     {
         name: "Node 1",
-        host: "pool-us.alfari.id",
-        port: 443,
-        password: "alfari",
-        secure: true,
+        host: "lavalink.jirayu.net",
+        port: 13592,
+        password: "youshallnotpass",
+        secure: false,
     },
 ];
 
@@ -52,15 +46,10 @@ export function buildPlayerControls(
             loopEmoji = Icons.MUSIC.loop;
     }
 
-    const pausePlayEmoji = player.isPaused
-        ? Icons.MUSIC.play
-        : Icons.MUSIC.pause;
+    const pausePlayEmoji = player.isPaused ? Icons.MUSIC.play : Icons.MUSIC.pause;
 
     const controlRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
-        new ButtonBuilder()
-            .setCustomId("loop")
-            .setEmoji(loopEmoji)
-            .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder().setCustomId("loop").setEmoji(loopEmoji).setStyle(ButtonStyle.Secondary),
         new ButtonBuilder()
             .setCustomId("prev")
             .setEmoji(Icons.MUSIC.previous)
@@ -112,8 +101,7 @@ export class PoruService {
 
         client.poru.on("trackStart", (player, track) => {
             const source =
-                track.info.sourceName.charAt(0).toUpperCase() +
-                track.info.sourceName.slice(1);
+                track.info.sourceName.charAt(0).toUpperCase() + track.info.sourceName.slice(1);
             const nextTrack = player.queue[0]?.info;
             const nextTrackText = nextTrack
                 ? `[${
@@ -128,9 +116,7 @@ export class PoruService {
             // Format duration
             const duration = formatDuration(track.info.length);
 
-            const channel = client.channels.cache.get(
-                player.textChannel
-            ) as TextChannel;
+            const channel = client.channels.cache.get(player.textChannel) as TextChannel;
 
             const embed = EmbedHandler.create({
                 author: {
@@ -157,16 +143,12 @@ export class PoruService {
                     { name: "\u200B", value: "\u200B", inline: true },
                     {
                         name: "Requested By",
-                        value: track.info.requester
-                            ? `<@${track.info.requester.id}>`
-                            : "Unknown",
+                        value: track.info.requester ? `<@${track.info.requester.id}>` : "Unknown",
                         inline: true,
                     },
                 ],
                 footer: {
-                    text:
-                        (track.info.requester as GuildMember).displayName ||
-                        "Unknown",
+                    text: (track.info.requester as GuildMember).displayName || "Unknown",
                     iconURL:
                         track.info.requester?.displayAvatarURL({
                             size: 1024,
@@ -192,9 +174,7 @@ export class PoruService {
         // Track end event
         client.poru.on("trackEnd", (player, track) => {
             player.message?.delete().catch(() => {});
-            Logger.info(
-                `Track ended: ${track.info.title} in guild ${player.guildId}`
-            );
+            Logger.info(`Track ended: ${track.info.title} in guild ${player.guildId}`);
         });
 
         // Player create event
