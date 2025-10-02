@@ -1,4 +1,4 @@
-import { Client, Collection, GatewayIntentBits, Partials, version } from "discord.js";
+import { Client, Collection, GatewayIntentBits, Partials } from "discord.js";
 import {
     CommandInterface,
     EventInterface,
